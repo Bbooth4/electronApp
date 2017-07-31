@@ -3,38 +3,48 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+const Menu = electron.Menu
 
 const countdown = require('./countdown.js')
+// format
+// 1. in index.html
+// 2. everything in called in main.js
+// 3. defines something to be called in 'something' that is then called in main.js
+// 4. the exported function 
 
 const path = require('path')
 const url = require('url')
+// used on the side calling the function from renderer 
+const ipc = electron.ipcMain;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win
+const windows = [];
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  [1, 2, 3].forEach(_ => {
+    let win = new BrowserWindow({width: 800, height: 600})
 
-  // and load the index.html of the app.
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+    // and load the index.html of the app.
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
 
-  countdown();
+    // Open the DevTools.
+    win.webContents.openDevTools()
 
-  // Open the DevTools.
-  win.webContents.openDevTools()
-
-  // Emitted when the window is closed.
-  win.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
+    // Emitted when the window is closed.
+    win.on('closed', function () {
+      // Dereference the window object, usually you would store windows
+      // in an array if your app supports multi windows, this is the time
+      // when you should delete the corresponding element.
+      win = null
+    })
+    // the forEach creates multiple windows 
+    windows.push(win)
   })
 }
 
@@ -62,3 +72,12 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+ipc.on('countdown-start', _ => {
+  countdown(count => {
+    windows.forEach(win => {
+      win.webContents.send('countdown', count)
+      // renders the count on all 3 windows simulataneously 
+    })
+  })
+})

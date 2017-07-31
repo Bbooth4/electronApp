@@ -1,10 +1,10 @@
-module.exports = countdown = () => {
+module.exports = countdown = (tick) => {
   let count = 5;
 
   let timer = setInterval(_ => {
-    count--
+    tick(count--)
     console.log(count)
-    if (count === 0) {
+    if (count === -1) {
       clearInterval(timer)
     }
   }, 500)

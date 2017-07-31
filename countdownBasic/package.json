@@ -2,6 +2,7 @@
   "name": "electron-quick-start",
   "version": "1.0.0",
   "description": "A minimal Electron application",
+  "productName": "Menu Demo",
   "main": "src/main.js",
   "scripts": {
     "start": "electron ."
