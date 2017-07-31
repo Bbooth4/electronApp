@@ -1,15 +1,12 @@
 const electron = require('electron')
 const path = require('path')
 
-const app = electron.app
-const clipboard = electron.clipboard
-const globalShortcut = electron.globalShortcut
-const Menu = electron.Menu
-const Tray = electron.Tray
+const { app, Menu, Tray, clipboard, globalShortcut } = electron;
+
+// adds anything you copy to the dropdown menu for the icon at the top of the menu 
 
 const ITEM_MAX_LENGTH = 20
 const STACK_SIZE = 5
-
 
 function addToStack(item, stack = []) {
   return [item].concat(stack.length >= STACK_SIZE ? stack.slice(0, stack.length - 1) : stack)

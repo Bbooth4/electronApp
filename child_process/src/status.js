@@ -49,4 +49,5 @@ document.getElementById('input').addEventListener('keyup', (evt, a) => {
     if (isDir(dir))
       checkGitStatus(dir)
   }, 500)
+  // the time is so that it isn't running toom uch while searching 
 })

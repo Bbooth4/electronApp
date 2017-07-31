@@ -1,9 +1,8 @@
 const electron = require('electron')
 const path = require('path')
+const { app, Menu, Tray } = electron 
 
-const app = electron.app
-const Menu = electron.Menu
-const Tray = electron.Tray
+// this exists as a little icon in the top menu of the computer 
 
 app.on('ready', _ => {
   const tray = new Tray(path.join('src', 'trayIcon.png'))
