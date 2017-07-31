@@ -4,6 +4,8 @@ const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
+const countdown = require('./countdown.js')
+
 const path = require('path')
 const url = require('url')
 
@@ -21,6 +23,8 @@ function createWindow () {
     protocol: 'file:',
     slashes: true
   }))
+
+  countdown();
 
   // Open the DevTools.
   win.webContents.openDevTools()
