@@ -8,6 +8,8 @@ const video = require('./video')
 const { ipcRenderer: ipc, shell, remote } = electron
 
 const images = remote.require('./images')
+// remote allows you to communicate between this module and the main.js process, gives access to the images cache in the main process in this example
+// capture is a renderer process, which is separate from a main process
 
 let canvasTarget
 let seriously
